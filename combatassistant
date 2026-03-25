@@ -9,13 +9,19 @@ import org.rs2.world.entity.npc.NPCHandler;
 import org.rs2.world.entity.player.PathFinder;
 import org.rs2.world.entity.player.Player;
 import org.rs2.world.entity.player.PlayerHandler;
-
+//0 part
 public class CombatAssistant {
 
 	private Player c;
+	private MeleeCombat melee;
+	private RangeCombat range;
+	private MageCombat mage;
 
 	public CombatAssistant(Player c) {
 		this.c = c;
+		this.melee = new MeleeCombat(c);
+		this.range = new RangeCombat(c);
+		this.mage = new MageCombat(c);
 	}
 
 	public int[][] slayerReqs = { { 1648, 5 }, { 1612, 15 }, { 1643, 45 },
@@ -555,7 +561,7 @@ public class CombatAssistant {
 				c.oldSpellId = 0;
 			}
 		}
-
+//1st part
 		if (c.bowSpecShot <= 0) {
 			c.oldNpcIndex = 0;
 			c.projectileStage = 0;
@@ -1121,7 +1127,7 @@ public class CombatAssistant {
 	public boolean usingCrystalBow() {
 		return c.playerEquipment[c.playerWeapon] >= 4212
 				&& c.playerEquipment[c.playerWeapon] <= 4223;
-	}
+	} //2nd part
 
 	public void appendVengeance(int otherPlayer, int damage) {
 		if (damage <= 0)
@@ -1523,7 +1529,7 @@ public class CombatAssistant {
 		return false;
 
 	}
-
+//3rd part
 	public void appendMultiBarrage(int playerId, boolean splashed) {
 		if (PlayerHandler.players[playerId] != null) {
 			Player c2 = PlayerHandler.players[playerId];
@@ -2086,7 +2092,7 @@ public class CombatAssistant {
 		}
 
 	}
-
+ //4th part
 	/**
 	 * Specials
 	 */
@@ -2503,7 +2509,7 @@ public class CombatAssistant {
 		c.headIcon = -1;
 		c.getPA().requestUpdates();
 	}
-
+// 5th part
 	/**
 	 * Wildy and duel info
 	 */
@@ -2998,7 +3004,7 @@ public class CombatAssistant {
 			return false;
 		}
 	}
-
+//6th part
 	/**
 	 * Melee
 	 */
@@ -3236,58 +3242,6 @@ public class CombatAssistant {
 		return 0;
 	}
 
-	/*
-	 * public int rangeMaxHit() { int rangehit = 0; rangehit += c.playerLevel[4]
-	 * / 7.5; int weapon = c.lastWeaponUsed; int Arrows = c.lastArrowUsed; if
-	 * (weapon == 4223) {//Cbow 1/10 rangehit = 2; rangehit += c.playerLevel[4]
-	 * / 7; } else if (weapon == 4222) {//Cbow 2/10 rangehit = 3; rangehit +=
-	 * c.playerLevel[4] / 7; } else if (weapon == 4221) {//Cbow 3/10 rangehit =
-	 * 3; rangehit += c.playerLevel[4] / 6.5; } else if (weapon == 4220) {//Cbow
-	 * 4/10 rangehit = 4; rangehit += c.playerLevel[4] / 6.5; } else if (weapon
-	 * == 4219) {//Cbow 5/10 rangehit = 4; rangehit += c.playerLevel[4] / 6; }
-	 * else if (weapon == 4218) {//Cbow 6/10 rangehit = 5; rangehit +=
-	 * c.playerLevel[4] / 6; } else if (weapon == 4217) {//Cbow 7/10 rangehit =
-	 * 5; rangehit += c.playerLevel[4] / 5.5; } else if (weapon == 4216) {//Cbow
-	 * 8/10 rangehit = 6; rangehit += c.playerLevel[4] / 5.5; } else if (weapon
-	 * == 4215) {//Cbow 9/10 rangehit = 6; rangehit += c.playerLevel[4] / 5; }
-	 * else if (weapon == 4214) {//Cbow Full rangehit = 7; rangehit +=
-	 * c.playerLevel[4] / 5; } else if (weapon == 6522) { rangehit = 5; rangehit
-	 * += c.playerLevel[4] / 6; } else if (weapon == 9029) {//dragon darts
-	 * rangehit = 8; rangehit += c.playerLevel[4] / 10; } else if (weapon == 811
-	 * || weapon == 868) {//rune darts rangehit = 2; rangehit +=
-	 * c.playerLevel[4] / 8.5; } else if (weapon == 810 || weapon == 867)
-	 * {//adamant darts rangehit = 2; rangehit += c.playerLevel[4] / 9; } else
-	 * if (weapon == 809 || weapon == 866) {//mithril darts rangehit = 2;
-	 * rangehit += c.playerLevel[4] / 9.5; } else if (weapon == 808 || weapon ==
-	 * 865) {//Steel darts rangehit = 2; rangehit += c.playerLevel[4] / 10; }
-	 * else if (weapon == 807 || weapon == 863) {//Iron darts rangehit = 2;
-	 * rangehit += c.playerLevel[4] / 10.5; } else if (weapon == 806 || weapon
-	 * == 864) {//Bronze darts rangehit = 1; rangehit += c.playerLevel[4] / 11;
-	 * } else if (Arrows == 4740 && weapon == 4734) {//BoltRacks rangehit = 3;
-	 * rangehit += c.playerLevel[4] / 6; } else if (Arrows == 11212) {//dragon
-	 * arrows rangehit = 4; rangehit += c.playerLevel[4] / 5.5; } else if
-	 * (Arrows == 892) {//rune arrows rangehit = 3; rangehit += c.playerLevel[4]
-	 * / 6; } else if (Arrows == 890) {//adamant arrows rangehit = 2; rangehit
-	 * += c.playerLevel[4] / 7; } else if (Arrows == 888) {//mithril arrows
-	 * rangehit = 2; rangehit += c.playerLevel[4] / 7.5; } else if (Arrows ==
-	 * 886) {//steel arrows rangehit = 2; rangehit += c.playerLevel[4] / 8; }
-	 * else if (Arrows == 884) {//Iron arrows rangehit = 2; rangehit +=
-	 * c.playerLevel[4] / 9; } else if (Arrows == 882) {//Bronze arrows rangehit
-	 * = 1; rangehit += c.playerLevel[4] / 9.5; } else if (Arrows == 9244) {
-	 * rangehit = 8; rangehit += c.playerLevel[4] / 3; } else if (Arrows ==
-	 * 9139) { rangehit = 12; rangehit += c.playerLevel[4] / 4; } else if
-	 * (Arrows == 9140) { rangehit = 2; rangehit += c.playerLevel[4] / 7; } else
-	 * if (Arrows == 9141) { rangehit = 3; rangehit += c.playerLevel[4] / 6; }
-	 * else if (Arrows == 9142) { rangehit = 4; rangehit += c.playerLevel[4] /
-	 * 6; } else if (Arrows == 9143) { rangehit = 7; rangehit +=
-	 * c.playerLevel[4] / 5; } else if (Arrows == 9144) { rangehit = 7; rangehit
-	 * += c.playerLevel[4] / 4.5; } int bonus = 0; bonus -= rangehit / 10;
-	 * rangehit += bonus; if (c.specDamage != 1) rangehit *= c.specDamage; if
-	 * (rangehit == 0) rangehit++; if (c.fullVoidRange()) { rangehit *= 1.10; }
-	 * if (c.prayerActive[3]) rangehit *= 1.05; else if (c.prayerActive[11])
-	 * rangehit *= 1.10; else if (c.prayerActive[19]) rangehit *= 1.15; return
-	 * rangehit; }
-	 */
 
 	public boolean properBolts() {
 		return c.playerEquipment[c.playerArrows] >= 9140
@@ -3543,7 +3497,7 @@ public class CombatAssistant {
 		}
 		return -1;
 	}
-
+// 7th part
 	public int getProjectileSpeed() {
 		if (c.dbowSpec)
 			return 100;
